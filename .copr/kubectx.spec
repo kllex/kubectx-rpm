@@ -2,17 +2,14 @@
 %global with_debug 0
 %global with_unit_test 0
 %global _dwz_low_mem_die_limit 0
-%global import_path github.com/ahmetb/kubectx
-%global url https://github.com/ahmetb/kubectx
-%global tag v0.9.3
 
 Name:           kubectx
 Version:        0.9.3
 Release:        1%{?dist}
 Summary:        kubectx helps you switch between clusters back and forth
 License:        Apache License 2.0
-URL:            %{url}
-Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
+URL:            https://github.com/ahmetb/kubectx
+Source0:        v%{version}.tar.gz
 
 ExclusiveArch:  %{go_arches}
 BuildRequires:  compiler(golang)
@@ -27,8 +24,6 @@ kubens helps you switch between Kubernetes namespaces smoothly.
 %setup -q -n %{name}-%{version}
 
 %build
-pwd
-ls -la
 export CGO_ENABLED=0
 go build -ldflags "-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" -o bin/kubectx ./cmd/kubectx
 go build -ldflags "-B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" -o bin/kubens ./cmd/kubens
@@ -50,6 +45,6 @@ install -p -m 644 completion/kubens.bash %{buildroot}/etc/bash_completion.d/
 /etc/bash_completion.d/kubens.bash
 
 %changelog
-* Wed Jun 16 2021 Alexander Knezevic-Lütke <akl@web.de> - 0.9.3-1
+* Thu Jun 17 2021 Alexander Knezevic-Lütke <akl@web.de> - %{version}-1
 - new upstream version
 
