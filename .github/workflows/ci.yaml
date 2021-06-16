@@ -1,0 +1,38 @@
+name: build new kubectx spec file
+on:
+  workflow_dispatch:
+jobs:
+  ci_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: install tools
+      run: sudo snap install jq
+    - name: check tools
+      run: |
+        command -v awk
+        command -v curl
+        command -v date
+        command -v envsubst
+        command -v jq
+        command -v tr
+    - name: checkout
+      uses: actions/checkout@master
+    - name: get old version
+      run: echo "old_version=$(awk '/^Version:/{print $NF}' .copr/kubectx.spec)" >> $GITHUB_ENV
+    - name: get new version
+      run: echo "new_version=$(curl -s -XGET https://api.github.com/repos/ahmetb/kubectx/releases/latest | jq .tag_name | tr -d v\")" >> $GITHUB_ENV
+    - name: generate date string
+      run: echo "date_string=$(date +'%a %b %d %Y')" >> $GITHUB_ENV
+    - name: render new spec-file if versions dont match
+      if: ${{ env.old_version != env.new_version }}
+      run: envsubst < kubectx.spec.tmpl > .copr/kubectx.spec
+    - name: commit new version of the spec file
+      if: ${{ env.old_version != env.new_version }}
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: '.copr/kubectx.spec'
+        author_name: ci-bot
+        author_email: ci-bot@kllex.net
+        message: "new upstream version ${{ env.new_tag }}"
+        pull_strategy: 'NO-PULL'
+        tag: "${{ env.new_version }} --force"
