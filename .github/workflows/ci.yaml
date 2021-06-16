@@ -20,14 +20,14 @@ jobs:
     - name: checkout
       uses: actions/checkout@master
     - name: get old version
-      run: echo "old_version=$(awk '/^Version:/{print $NF}' .copr/kubectx.spec)" >> $GITHUB_ENV
+      run: echo "old_version=$(awk '/^Version:/{print $NF}' kubectx.spec)" >> $GITHUB_ENV
     - name: get new version
       run: echo "new_version=$(curl -s -XGET https://api.github.com/repos/ahmetb/kubectx/releases/latest | jq .tag_name | tr -d v\")" >> $GITHUB_ENV
     - name: generate date string
       run: echo "date_string=$(date +'%a %b %d %Y')" >> $GITHUB_ENV
     - name: render new spec-file if versions dont match
       if: ${{ env.old_version != env.new_version }}
-      run: envsubst < kubectx.spec.tmpl > .copr/kubectx.spec
+      run: envsubst < kubectx.spec.tmpl > kubectx.spec
     - name: commit new version of the spec file
       if: ${{ env.old_version != env.new_version }}
       uses: EndBug/add-and-commit@v7
@@ -35,6 +35,6 @@ jobs:
         add: '.copr/kubectx.spec'
         author_name: ci-bot
         author_email: ci-bot@kllex.net
-        message: "new upstream version ${{ env.new_tag }}"
+        message: "new upstream version ${{ env.new_version }}"
         pull_strategy: 'NO-PULL'
         tag: "${{ env.new_version }} --force"
