@@ -1,0 +1,5 @@
+srpm:
+	mkdir -p /builddir/build/SOURCES
+	curl -L https://github.com/ahmetb/kubectx/archive/refs/tags/v${new_version}.tar.gz -o /builddir/build/SOURCES/v${new_version}.tar.gz
+	rpmbuild -bs kubectx.spec
+	cp /builddir/build/SRPMS/*.src.rpm $(outdir)
