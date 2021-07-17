@@ -27,7 +27,9 @@ jobs:
       run: echo "date_string=$(date +'%a %b %d %Y')" >> $GITHUB_ENV
     - name: render new spec-file if versions dont match
       if: ${{ env.old_version != env.new_version }}
-      run: envsubst < kubectx.spec.tmpl > kubectx.spec
+      run: |
+        envsubst < kubectx.spec.tmpl > kubectx.spec
+        envsubst < Makefile.tmpl > .copr/Makefile
     - name: commit new version of the spec file
       if: ${{ env.old_version != env.new_version }}
       uses: EndBug/add-and-commit@v7
