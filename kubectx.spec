@@ -4,7 +4,7 @@
 %global _dwz_low_mem_die_limit 0
 
 Name:           kubectx
-Version:        0.9.3
+Version:        0.9.4
 Release:        1%{?dist}
 Summary:        kubectx helps you switch between clusters back and forth
 License:        Apache License 2.0
@@ -45,6 +45,6 @@ install -p -m 644 completion/kubens.bash %{buildroot}/etc/bash_completion.d/
 /etc/bash_completion.d/kubens.bash
 
 %changelog
-* Thu Jun 17 2021 Alexander Knezevic-Lütke <akl@web.de> - %{version}-1
+* Sat Jul 17 2021 Alexander Knezevic-Lütke <akl@web.de> - %{version}-1
 - new upstream version
 
