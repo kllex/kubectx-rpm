@@ -32,7 +32,7 @@ jobs:
       if: ${{ env.old_version != env.new_version }}
       uses: EndBug/add-and-commit@v7
       with:
-        add: '.copr/kubectx.spec'
+        add: 'kubectx.spec'
         author_name: ci-bot
         author_email: ci-bot@kllex.net
         message: "new upstream version ${{ env.new_version }}"
