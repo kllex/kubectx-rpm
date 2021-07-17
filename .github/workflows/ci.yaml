@@ -1,4 +1,4 @@
-name: build new kubectx spec file
+name: check and build if new upstream exists
 on:
   schedule:
     - cron: '30 7 * * *'
