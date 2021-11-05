@@ -2,6 +2,7 @@
 %global with_debug 0
 %global with_unit_test 0
 %global _dwz_low_mem_die_limit 0
+%global _debugsource_packages %{nil}
 
 Name:           kubectx
 Version:        0.9.4
@@ -45,6 +46,9 @@ install -p -m 644 completion/kubens.bash %{buildroot}/etc/bash_completion.d/
 /etc/bash_completion.d/kubens.bash
 
 %changelog
+* Fri Nov 05 2021 Alexander Knezevic-Lütke <akl@web.de> - %{version}0
+- remove debugsource package
+
 * Sat Jul 17 2021 Alexander Knezevic-Lütke <akl@web.de> - %{version}-1
 - new upstream version
 
